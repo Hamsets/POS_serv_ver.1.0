@@ -5,13 +5,14 @@
 	import java.text.*;
 	
 	class POS_serv {
+		String path = "D:\\YandexDisk\\MyStudy\\Android\\POS_serv_ver.1.0\\Check_arhiv\\";
+		int portServer =51100;
+		String id = "Part";
 		
 		public class ClientHandler implements Runnable {
 			BufferedReader reader;
 			Socket sock;
-			String id = "Part";
-			
-			
+
 			public ClientHandler (Socket clientSocket) {
 				try {
 					sock = clientSocket;
@@ -22,16 +23,21 @@
 			} //закрываем конструктор
 			
 			public void run () {
-				String ticketStr;
-				ArrayList<String> receiptStr = null;
+				String checkStr;
+				ArrayList<String> checkArrStr = new ArrayList<String>();
 				
 				try {
-					while ((ticketStr = reader.readLine ()) != null) {
-						System.out.println ("Sending data:" + ticketStr);
-						receiptStr.add (ticketStr);
-//						writeFileReceipt (id, ticketStr);
+					while ((checkStr = reader.readLine ()) != null) {
+						System.out.println ("Sending data:" + checkStr);
+
+
+						checkArrStr.add (checkStr);
+
+//						writeFileReceipt (id, checkStr);
 					} // закрываем while
-						writeFileReceipt (receiptStr);
+						if (!checkArrStr.isEmpty()){
+						writeCheckToFile(checkArrStr);
+						}
 				} catch (Exception ex) {ex.printStackTrace();}
 			}// закрываем run
 		}// закрываем вложенный класс
@@ -43,7 +49,7 @@
 		public void go () {
 			System.out.println ("Wating for connection...");
 			try {
-				ServerSocket serverSock = new ServerSocket (5000);
+				ServerSocket serverSock = new ServerSocket (portServer);
 				
 				while (true) {
 					Socket clientSocket = serverSock.accept();
@@ -60,20 +66,19 @@
 		
 		
 		//пишем принятое сообщение в новый файл с названием (дата, время с секундами), нужно проверить существует ли папка с текущей датой, текущим id кафе
-		public void writeFileReceipt(ArrayList<String> receiptStr) {
+		public void writeCheckToFile(ArrayList<String> receiptStr) {
 			
 			File dir;
 			File file;
-			String way = "D:\\YandexDisk\\MyStudy\\Android\\POS_serv_ver.1.0\\";
 			Date dateNow = new Date();
 			Date timeNow = new Date ();
 			SimpleDateFormat dateDirConf = new SimpleDateFormat ("yyyy.MM.dd");
-			SimpleDateFormat timeFileConf = new SimpleDateFormat ("hh-mm-ss");
+			SimpleDateFormat timeFileConf = new SimpleDateFormat ("HH-mm-ss");
 			String dirName;
 			String fileName;
 			
-			dirName = way + "\\" + dateDirConf.format(dateNow) + "\\";
-			fileName = dirName + timeFileConf.format(timeNow);
+			dirName = path + "\\" + dateDirConf.format(dateNow) + "\\";
+			fileName = dirName + timeFileConf.format(timeNow) + ".txt";
 			
 			dir = new File (dirName);
 			file = new File (fileName);
