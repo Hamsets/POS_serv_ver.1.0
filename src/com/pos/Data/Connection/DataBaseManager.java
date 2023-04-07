@@ -1,5 +1,6 @@
-package com.arr.pos.Connection;
+package com.pos.Data.Connection;
 
+import com.pos.Utils.PropertiesReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

@@ -1,4 +1,4 @@
-package com.arr.pos.Connection;
+package com.pos.Data.Connection;
 
 import java.sql.Array;
 import java.sql.Blob;

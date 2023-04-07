@@ -1,4 +1,4 @@
-package com.arr.pos.Connection;
+package com.pos.Utils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -22,6 +22,8 @@ public class PropertiesReader {
             mapProperties.put("db.url", property.getProperty("db.url"));
             mapProperties.put("db.user", property.getProperty("db.user"));
             mapProperties.put("db.password", property.getProperty("db.password"));
+            mapProperties.put("dbText.path", property.getProperty("dbText.path"));
+            mapProperties.put("portServer", property.getProperty("portServer"));
             fileInputStream.close();
         } catch (IOException e){
             e.printStackTrace();
