@@ -2,6 +2,7 @@ package com.pos.Service.Dto;
 
 import com.pos.Data.Entities.Goods;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
@@ -9,22 +10,39 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.java.Log;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class CheckDto {
+//    private ArrayList<Goods> goodsList = new ArrayList<>();
 
     private Long id;
     private String pos;
     private Long cashierId;
-    private ArrayList<Goods> goodsListDto;
-    private BigDecimal sum = new BigDecimal(0);
-    private Date dateStamp;
+    private ArrayList<Goods> goodsDtoList;
+    private BigDecimal sum;
+    private Date date;
+    private Timestamp dateStamp;
+    private Boolean deleted;
+    private static final String TAG = "logsCheckDto";
+
+    public CheckDto (String checkStr){
+        String[] arrayCheckCode = checkStr.split("#");
+        this.id=Long.parseLong(arrayCheckCode[1]);
+        this.pos=arrayCheckCode[2];
+        this.cashierId=Long.parseLong(arrayCheckCode[3]);
+        this.goodsDtoList =Goods.createGoodsListFromStr(arrayCheckCode[4]);
+        this.sum= new BigDecimal(arrayCheckCode[5]);
+        this.dateStamp=Timestamp.valueOf(arrayCheckCode[6]);
+        System.out.println("Интерпретирована дата: " + this.dateStamp.toString());
+        this.deleted = Boolean.parseBoolean(arrayCheckCode[7]);
+    }
 
     public Boolean isEmpty (){
-        if (goodsListDto.isEmpty()) {
+        if (goodsDtoList.isEmpty()) {
             return true;
         } else {
             return false;
@@ -32,7 +50,7 @@ public class CheckDto {
     }
 
     public void clear(){
-        goodsListDto.clear();
+        goodsDtoList.clear();
     }
 
     public void addGoods(Long i) {
@@ -42,16 +60,16 @@ public class CheckDto {
         Boolean foundGoodsInCheck = false;
 
         //если check - создан (повторный выбор товара), проверяем наличие в чека такого же товара
-        if (!goodsListDto.isEmpty()) {
+        if (!goodsDtoList.isEmpty()) {
 
             //поиск в check аналогичного currGoods с typeGoods =i
-            for (int x = 0; x < (goodsListDto.size()); x++) {
+            for (int x = 0; x < (goodsDtoList.size()); x++) {
 
                 //если есть, то setIncreaseQuantityGoods и замена данной позиции check на currGoods
-                if (goodsListDto.get(x).getGoodsType().equals(currGoods.getGoodsType()) ) {
-                    Goods compGoods = goodsListDto.get(x);
+                if (goodsDtoList.get(x).getGoodsType() == currGoods.getGoodsType()) {
+                    Goods compGoods = goodsDtoList.get(x);
                     compGoods.setIncreaseQuantityGoods();
-                    goodsListDto.set(x,compGoods);
+                    goodsDtoList.set(x,compGoods);
                     foundGoodsInCheck = true;
                     break;
                 }
@@ -60,7 +78,7 @@ public class CheckDto {
 
         //если check не пустой и не найдено совпадение то добавляем в конце
         if (!foundGoodsInCheck) {
-            goodsListDto.add(currGoods);
+            goodsDtoList.add(currGoods);
         }
 
     }
@@ -70,11 +88,21 @@ public class CheckDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CheckDto checkDto1 = (CheckDto) o;
-        return id.equals(checkDto1.id) && pos.equals(checkDto1.pos) && cashierId.equals(checkDto1.cashierId) && goodsListDto.equals(checkDto1.goodsListDto) && dateStamp.equals(checkDto1.dateStamp);
+        return id.equals(checkDto1.id) && pos.equals(checkDto1.pos) && cashierId.equals(checkDto1.cashierId) && goodsDtoList.equals(checkDto1.goodsDtoList) && dateStamp.equals(checkDto1.dateStamp);
     }
-
+    public String getCheckCode() {
+        String checkCode = "";
+        for (int x = 0; x < goodsDtoList.size(); x++) {
+            checkCode = checkCode + goodsDtoList.get(x).getGoodsType() + "\\"
+                    + goodsDtoList.get(x).getQuantityGoods();
+            if (x != (goodsDtoList.size()-1)){
+                checkCode = checkCode + "|";
+            }
+        }
+        return checkCode;
+    }
     @Override
     public int hashCode() {
-        return Objects.hash(id, pos, cashierId, goodsListDto, dateStamp);
+        return Objects.hash(pos, cashierId, goodsDtoList, sum, dateStamp, deleted);
     }
 }

@@ -1,12 +1,13 @@
 package com.pos.Data.Dao;
 
 import com.pos.Data.Entities.Check;
+import com.pos.Service.Dto.CheckDto;
 
-public interface checkDao {
-    void createCheck (Check check);
+public interface CheckDao {
+    int writeCheck(CheckDto checkDto);
     Check findCheckById (Long id);
     Check findCheckByPos (String idPos);
-    void updateCheck (Check check);
+    void updateCheckAccepted(String inputStr);
     boolean deleteById (Long id);
 
 }

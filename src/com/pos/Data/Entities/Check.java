@@ -1,8 +1,9 @@
 package com.pos.Data.Entities;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,53 +14,36 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Check {
-
     private Long id;
+
     private String pos;
     private Long cashierId;
-    private ArrayList<Goods> goodsList;
+    private ArrayList<Goods> goodsList = new ArrayList<>();
     private BigDecimal sum = new BigDecimal(0);
-    private Date dateStamp;
-
-    public Boolean isEmpty (){
-        if (goodsList.isEmpty()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public void clear(){
-        goodsList.clear();
-    }
-
-    public void addGoods(Long i) {
-
-        Goods currGoods = new Goods();
-        currGoods.setGoodsType(i);
-        Boolean foundGoodsInCheck = false;
-
-        //если check - создан (повторный выбор товара), проверяем наличие в чека такого же товара
-        if (!goodsList.isEmpty()) {
-
-            //поиск в check аналогичного currGoods с typeGoods =i
-            for (int x = 0; x < (goodsList.size()); x++) {
-
-                //если есть, то setIncreaseQuantityGoods и замена данной позиции check на currGoods
-                if (goodsList.get(x).getGoodsType().equals(currGoods.getGoodsType()) ) {
-                    Goods compGoods = goodsList.get(x);
-                    compGoods.setIncreaseQuantityGoods();
-                    goodsList.set(x,compGoods);
-                    foundGoodsInCheck = true;
-                    break;
-                }
+    private Timestamp dateStamp;
+    private Boolean deleted;
+    public String getCheckCode() {
+        String checkCode = "";
+        for (int x = 0; x < goodsList.size(); x++) {
+            checkCode = checkCode + goodsList.get(x).getGoodsType() + "\\"
+                    + goodsList.get(x).getQuantityGoods();
+            if (x != (goodsList.size()-1)){
+                checkCode = checkCode + "|";
             }
         }
+        return checkCode;
+    }
 
-        //если check не пустой и не найдено совпадение то добавляем в конце
-        if (!foundGoodsInCheck) {
-            goodsList.add(currGoods);
-        }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Check check = (Check) o;
+        return pos.equals(check.pos) && cashierId.equals(check.cashierId) && goodsList.equals(check.goodsList) && sum.equals(check.sum) && dateStamp.equals(check.dateStamp) && deleted.equals(check.deleted);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(pos, cashierId, goodsList, sum, dateStamp, deleted);
     }
 }
