@@ -103,6 +103,9 @@ public class CheckDto {
     }
     @Override
     public int hashCode() {
-        return Objects.hash(pos, cashierId, goodsDtoList, sum, dateStamp, deleted);
+        int hash;
+        String str = pos + cashierId.toString() + sum.toString() + dateStamp.toString() + deleted.toString();
+        hash = Objects.hash(str);
+        return hash;
     }
 }
