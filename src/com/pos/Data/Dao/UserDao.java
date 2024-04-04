@@ -1,6 +1,7 @@
 package com.pos.Data.Dao;
 
 import com.pos.Data.Entities.User;
+import com.pos.Service.Dto.UserDto;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
@@ -13,5 +14,6 @@ public interface UserDao {
     ArrayList<User> findAllUsers();
     void updateUser(User user);
     boolean deleteById(Long id);
+    int compareUser(UserDto userDto);
 
 }

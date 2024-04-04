@@ -3,6 +3,7 @@ package com.pos.Data.Dao.impl;
 import com.pos.Data.Connection.DataBaseManager;
 import com.pos.Data.Dao.UserDao;
 import com.pos.Data.Entities.User;
+import com.pos.Service.Dto.UserDto;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,6 +20,8 @@ public class UserDaoImpl implements UserDao {
             "c.role,c.password,c.rating,c.deleted FROM users c WHERE c.role=?";
     private static final String SQL_FIND_BY_RATING = "SELECT c.id,c.first_name,c.last_name,c.sur_name,c.email," +
             "c.role,c.password,c.rating,c.deleted FROM users c WHERE c.rating>? AND c.rating<?";
+    private static final String SQL_FIND_REG_USER = "SELECT c.id,c.first_name,c.last_name,c.sur_name,c.email," +
+            "c.role,c.password,c.rating,c.deleted FROM users c WHERE c.email=? AND c.password=?";
     private static final String SQL_SELECT_ALL = "SELECT c.id,c.first_name,c.last_name,c.sur_name,c.email," +
             "c.role,c.password,c.rating,c.deleted FROM users c";
     private static final String SQL_UPDATE = "UPDATE users SET first_name=?,last_name=?,sur_name=?,email=?," +
@@ -73,6 +76,23 @@ public class UserDaoImpl implements UserDao {
             throw new RuntimeException("Users not found or SQLException: " + "/n" + e);
         }
         return userArrayList;
+    }
+
+    @Override
+    public int compareUser(UserDto userDto) {
+        int userId;
+        try (Connection connection = dataBaseManager.getConnection()){
+            PreparedStatement statement = connection.prepareStatement(SQL_FIND_REG_USER);
+            statement.setString(1,userDto.getEmail());
+            statement.setString(2,userDto.getPassword());
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            User user = mapRow(resultSet);
+            userId=user.getId();
+        } catch (SQLException e){
+            throw new RuntimeException("User not found or SQLException: " + "/n" + e);
+        }
+        return userId;
     }
 
     @Override
@@ -147,7 +167,7 @@ public class UserDaoImpl implements UserDao {
 
     private User mapRow(ResultSet resultSet) throws SQLException {
         User user = new User(
-                resultSet.getLong("id"),
+                resultSet.getInt("id"),
                 resultSet.getString("first_name"),
                 resultSet.getString("last_name"),
                 resultSet.getString("sur_name"),

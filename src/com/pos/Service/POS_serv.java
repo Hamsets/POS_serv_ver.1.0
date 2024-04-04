@@ -2,7 +2,9 @@ package com.pos.Service;
 
 import com.pos.Data.Connection.DataBaseManager;
 import com.pos.Data.Dao.CheckDao;
+import com.pos.Data.Dao.UserDao;
 import com.pos.Data.Dao.impl.CheckDaoImpl;
+import com.pos.Data.Dao.impl.UserDaoImpl;
 import com.pos.Data.Entities.Check;
 import com.pos.Data.Entities.Goods;
 import com.pos.Service.Dto.CheckDto;
@@ -37,7 +39,6 @@ class POS_serv {
 			String readedStr;
 			CheckDto checkDto;
 			UserDto userDto;
-
 			try {
 				while ((readedStr = reader.readLine ()) != null) {
 					System.out.println ("Sending data:" + readedStr);
@@ -49,7 +50,7 @@ class POS_serv {
 							checkDto = new CheckDto(readedStr);
 							int hash = writeCheckToDb(checkDto);
 //							Thread.sleep(3000);
-							writer.write(Integer.toString(hash) +"\n");
+							writer.write(hash +"\n");
 							System.out.println(hash);
 							writer.flush();
 						break;
@@ -61,6 +62,10 @@ class POS_serv {
 							break;//FIXME need code
 						case "COMPARE_USER":
 							userDto = new UserDto(readedStr);
+							int userId = compareUserDb(userDto);
+							writer.write(userId +"\n");
+							System.out.println(userId);
+							writer.flush();
 							break;
 					}
 				}
@@ -68,13 +73,14 @@ class POS_serv {
 		}
 	}// закрываем вложенный класс
 
-	private boolean isHasTrue(String inputStr) {
-		boolean accepted = false;
-		String[] arrayInputStr = inputStr.split("#");
-		if (arrayInputStr[0].equals("true")){
-			accepted = true;
+	private int compareUserDb(UserDto userDto) {
+		UserDao userDao = new UserDaoImpl(new DataBaseManager());
+
+		try { return userDao.compareUser(userDto);}  //FIXME добавить метод сверки имени и пароля по базе
+		catch (RuntimeException e){
+			System.out.println("Ошибка сети! \n" + e.getMessage());
+			return 0;
 		}
-		return accepted;
 	}
 
 	private int writeCheckToDb(CheckDto checkDto) {
@@ -85,6 +91,15 @@ class POS_serv {
 			System.out.println("Network error!!! \n" + e.getMessage());
 			return 0;
 		}
+	}
+
+	private boolean isHasTrue(String inputStr) {
+		boolean accepted = false;
+		String[] arrayInputStr = inputStr.split("#");
+		if (arrayInputStr[0].equals("true")){
+			accepted = true;
+		}
+		return accepted;
 	}
 
 	private void updateAcceptedCheckToDb(String inputStr) {

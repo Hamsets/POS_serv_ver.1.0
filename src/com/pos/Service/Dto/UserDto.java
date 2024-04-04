@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
-    private Long id;
+    private int id;
     private String firstName;
     private String lastName;
     private String surName;
@@ -25,15 +25,9 @@ public class UserDto {
     private Boolean deleted;
     public UserDto (String userStr){
         String[] arrayUserCode = userStr.split("#");
-        this.id=Long.parseLong(arrayUserCode[1]);
-        this.firstName=arrayUserCode[2];
-        this.lastName=arrayUserCode[3];
-        this.surName=arrayUserCode[4];
-        this.email=arrayUserCode[5];
-        this.role=arrayUserCode[6];
-        this.password=arrayUserCode[7];
-        this.rating= new BigDecimal(arrayUserCode[8]);
-        this.deleted = Boolean.parseBoolean(arrayUserCode[9]);
+        this.email=arrayUserCode[1];
+        this.password=arrayUserCode[2];
+
     }
 
     @Override
@@ -41,7 +35,7 @@ public class UserDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserDto userDto = (UserDto) o;
-        return id.equals(userDto.id)
+        return id==userDto.id
                 && firstName.equals(userDto.firstName)
                 && lastName.equals(userDto.lastName)
                 && surName.equals(userDto.surName)

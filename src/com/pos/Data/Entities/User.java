@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class User {
 
-    private Long id;
+    private int id;
     private String firstName;
     private String lastName;
     private String surName;
@@ -29,7 +29,9 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id.equals(user.id) && firstName.equals(user.firstName) && lastName.equals(user.lastName) && surName.equals(user.surName) && email.equals(user.email) && password.equals(user.password) && role.equals(user.role) && rating.equals(user.rating) && deleted.equals(user.deleted);
+        return id==user.id && firstName.equals(user.firstName) && lastName.equals(user.lastName)
+                && surName.equals(user.surName) && email.equals(user.email) && password.equals(user.password)
+                && role.equals(user.role) && rating.equals(user.rating) && deleted.equals(user.deleted);
     }
 
     @Override
