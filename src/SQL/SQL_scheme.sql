@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS goods (
     public_name VARCHAR (100) NOT NULL,
     prize INTEGER,
     is_active BOOLEAN NOT NULL,
+    for_pos VARCHAR (50),
     deleted BOOLEAN NOT NULL
 );
 
