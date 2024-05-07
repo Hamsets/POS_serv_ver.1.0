@@ -79,20 +79,21 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public int compareUser(UserDto userDto) {
-        int userId;
+    public User compareUser(UserDto userDto) {
+        User user;
+//        int userId;
         try (Connection connection = dataBaseManager.getConnection()){
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_REG_USER);
             statement.setString(1,userDto.getEmail());
             statement.setString(2,userDto.getPassword());
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
-            User user = mapRow(resultSet);
-            userId=user.getId();
+            user = mapRow(resultSet);
+//            userId=user.getId();
         } catch (SQLException e){
             throw new RuntimeException("User not found or SQLException: " + "/n" + e);
         }
-        return userId;
+        return user;
     }
 
     @Override

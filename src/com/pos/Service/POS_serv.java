@@ -60,12 +60,15 @@ class POS_serv {
 							break; //FIXME need code
 						case "READ_USER":
 							break;//FIXME need code
+						case "READ_DAY_ITOG":
+
+							break;//TODO добавить метод извлечения по представленной дате суммы чеков
 						case "COMPARE_USER":
 							userDto = new UserDto(readedStr);
-							int userId = compareUserDb(userDto);
-							writer.write(userId +"\n");
-							System.out.println(userId);
+							String strUserDb = compareUserDb(userDto).toString();
+							writer.write(strUserDb + "\n");
 							writer.flush();
+							System.out.println(strUserDb);
 							break;
 					}
 				}
@@ -73,13 +76,15 @@ class POS_serv {
 		}
 	}// закрываем вложенный класс
 
-	private int compareUserDb(UserDto userDto) {
+	private String compareUserDb(UserDto userDto) {
 		UserDao userDao = new UserDaoImpl(new DataBaseManager());
 
-		try { return userDao.compareUser(userDto);}  //FIXME добавить метод сверки имени и пароля по базе
+		try {
+			String answer = userDao.compareUser(userDto).toString();
+			return answer;}
 		catch (RuntimeException e){
 			System.out.println("Ошибка сети! \n" + e.getMessage());
-			return 0;
+			return "-1";
 		}
 	}
 
@@ -129,11 +134,4 @@ class POS_serv {
 		} catch (Exception ex) {ex.printStackTrace();}
 	}// закрываем go
 
-
-//	private Check createCheck (String checkStr){
-//		String[] arrayCheckCode = checkStr.split("#");
-//		return new Check(Long.parseLong(arrayCheckCode[0]),arrayCheckCode[1],Long.parseLong(arrayCheckCode[2]),
-//				Goods.createGoodsListFromStr(arrayCheckCode[3]), new BigDecimal(arrayCheckCode[4]),
-//				Timestamp.valueOf(arrayCheckCode[5]), Boolean.parseBoolean(arrayCheckCode[6]));
-//	}
 }

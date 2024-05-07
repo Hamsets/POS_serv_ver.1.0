@@ -14,6 +14,6 @@ public interface UserDao {
     ArrayList<User> findAllUsers();
     void updateUser(User user);
     boolean deleteById(Long id);
-    int compareUser(UserDto userDto);
+    User compareUser(UserDto userDto);
 
 }

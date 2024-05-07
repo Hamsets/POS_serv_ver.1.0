@@ -38,4 +38,18 @@ public class User {
     public int hashCode() {
         return Objects.hash(id, firstName, lastName, surName, email, password, role, rating, deleted);
     }
+
+    @Override
+    public String toString() {
+        String result = id + "#"
+                + firstName + "#"
+                + lastName + "#"
+                + surName + "#"
+                + email + "#"
+                + role + "#"
+                + password + "#"
+                + rating + "#"
+                + deleted;
+        return result;
+    }
 }
