@@ -39,7 +39,8 @@ public class Check {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Check check = (Check) o;
-        return pos.equals(check.pos) && cashierId.equals(check.cashierId) && goodsList.equals(check.goodsList) && sum.equals(check.sum) && dateStamp.equals(check.dateStamp) && deleted.equals(check.deleted);
+        return pos.equals(check.pos) && cashierId.equals(check.cashierId) && goodsList.equals(check.goodsList)
+                && sum.equals(check.sum) && dateStamp.equals(check.dateStamp) && deleted.equals(check.deleted);
     }
 
     @Override

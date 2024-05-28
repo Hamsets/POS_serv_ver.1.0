@@ -14,10 +14,17 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.net.*;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.SimpleTimeZone;
+import java.util.TimeZone;
 
 class POS_serv {
 	private final PropertiesReader pR = new PropertiesReader();
-//	protected int hashForCheckAcception;
+	private final static String MIN_START_DATE_STR = "2000-01-01 00:00:00";
 
 	public class ClientHandler implements Runnable {
 		BufferedReader reader;
@@ -49,7 +56,6 @@ class POS_serv {
 						case "WRITE_CHECK":
 							checkDto = new CheckDto(readedStr);
 							int hash = writeCheckToDb(checkDto);
-//							Thread.sleep(3000);
 							writer.write(hash +"\n");
 							System.out.println(hash);
 							writer.flush();
@@ -61,8 +67,12 @@ class POS_serv {
 						case "READ_USER":
 							break;//FIXME need code
 						case "READ_DAY_ITOG":
-
-							break;//TODO добавить метод извлечения по представленной дате суммы чеков
+							BigDecimal sum;
+							sum = getSummByDate(readedStr);
+							writer.write( sum + "\n");
+							writer.flush();
+							System.out.println(sum.toString());
+							break;
 						case "COMPARE_USER":
 							userDto = new UserDto(readedStr);
 							String strUserDb = compareUserDb(userDto).toString();
@@ -75,6 +85,54 @@ class POS_serv {
 			} catch (Exception ex) {ex.printStackTrace();}
 		}
 	}// закрываем вложенный класс
+
+	private BigDecimal getSummByDate(String readedStr) {
+		String[] arrayStr = readedStr.split("#");
+		CheckDao checkDao = new CheckDaoImpl(new DataBaseManager());
+
+        Calendar currStartDay = new GregorianCalendar(TimeZone.getDefault());
+        currStartDay.setTimeZone(TimeZone.getDefault());
+        currStartDay.set(Calendar.HOUR_OF_DAY, 00);
+        currStartDay.set(Calendar.MINUTE, 00);
+        currStartDay.set(Calendar.SECOND, 01);
+        currStartDay.set(Calendar.MILLISECOND, 00);
+
+        Calendar currEndDay = new GregorianCalendar(TimeZone.getDefault());
+        currEndDay.setTimeZone(TimeZone.getDefault());
+        currEndDay.set(Calendar.HOUR_OF_DAY, 23);
+        currEndDay.set(Calendar.MINUTE, 59);
+        currEndDay.set(Calendar.SECOND, 59);
+        currEndDay.set(Calendar.MILLISECOND, 999);
+
+        Timestamp startDate = new Timestamp(currStartDay.getTimeInMillis());
+        Timestamp endDate = new Timestamp(currEndDay.getTimeInMillis());
+
+		ArrayList<Check> checkArrayList;
+		BigDecimal sum = new BigDecimal(0);
+
+		if (arrayStr.length>1 && !arrayStr[1].isBlank()){
+			String[] dateStartArr = arrayStr[1].split("/");
+			String dateStartStr = dateStartArr[2] + "-" + dateStartArr[1] + "-" + dateStartArr[0] + " 00:00:01";
+			startDate = Timestamp.valueOf(dateStartStr);
+		} else if (arrayStr.length>1 && arrayStr[1].isBlank()) {
+			startDate = Timestamp.valueOf(MIN_START_DATE_STR);
+		}
+
+		if (arrayStr.length>2 && !arrayStr[2].isBlank()){
+			String[] dateEndArr = arrayStr[2].split("/");
+			String dateEndtStr = dateEndArr[2] + "-" + dateEndArr[1] + "-" + dateEndArr[0] + " 23:59:59";
+			endDate = Timestamp.valueOf(dateEndtStr);
+		}
+
+		checkArrayList = checkDao.findCheckByDate(startDate,endDate);
+
+		if (checkArrayList!=null){
+			for (Check check : checkArrayList){
+				sum = sum.add(check.getSum());
+			}
+		}
+		return sum;
+	}
 
 	private String compareUserDb(UserDto userDto) {
 		UserDao userDao = new UserDaoImpl(new DataBaseManager());

@@ -15,15 +15,15 @@ public class UserDaoImpl implements UserDao {
     private static final String SQL_INSERT = "INSERT INTO users (first_name,last_name,sur_name," +
             "email, role, password, rating, deleted) VALUES (?,?,?,?,?,?,?,?)";
     private static final String SQL_FIND_BY_ID = "SELECT c.id,c.first_name,c.last_name,c.sur_name,c.email," +
-            "c.role,c.password,c.rating,c.deleted FROM users c WHERE c.id=?";
+            "c.role,c.password,c.rating,c.deleted FROM users c WHERE c.id=? AND c.deleted = false";
     private static final String SQL_FIND_BY_ROLE = "SELECT c.id,c.first_name,c.last_name,c.sur_name,c.email," +
-            "c.role,c.password,c.rating,c.deleted FROM users c WHERE c.role=?";
+            "c.role,c.password,c.rating,c.deleted FROM users c WHERE c.role=? AND c.deleted = false";
     private static final String SQL_FIND_BY_RATING = "SELECT c.id,c.first_name,c.last_name,c.sur_name,c.email," +
-            "c.role,c.password,c.rating,c.deleted FROM users c WHERE c.rating>? AND c.rating<?";
+            "c.role,c.password,c.rating,c.deleted FROM users c WHERE c.rating>? AND c.rating<? AND c.deleted = false";
     private static final String SQL_FIND_REG_USER = "SELECT c.id,c.first_name,c.last_name,c.sur_name,c.email," +
-            "c.role,c.password,c.rating,c.deleted FROM users c WHERE c.email=? AND c.password=?";
+            "c.role,c.password,c.rating,c.deleted FROM users c WHERE c.email=? AND c.password=? AND c.deleted = false";
     private static final String SQL_SELECT_ALL = "SELECT c.id,c.first_name,c.last_name,c.sur_name,c.email," +
-            "c.role,c.password,c.rating,c.deleted FROM users c";
+            "c.role,c.password,c.rating,c.deleted FROM users c WHERE c.deleted = false";
     private static final String SQL_UPDATE = "UPDATE users SET first_name=?,last_name=?,sur_name=?,email=?," +
             "role=?,password=?,rating=?,deleted=? WHERE id=?";
     private static final String SQL_DELETE = "UPDATE users SET deleted=true WHERE id=?";

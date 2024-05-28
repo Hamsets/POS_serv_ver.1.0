@@ -10,9 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class CheckDaoImpl implements CheckDao {
-
+    private static final String SQL_TAKE_SUM_BY_DATE = "SELECT c.id,c.pos,c.cashier_id,c.check_code,c.sum,c.date_stamp,c.deleted FROM checks c " +
+            "WHERE ? <= date_stamp AND c.date_stamp <= ? AND c.deleted = false";
     private static final String SQL_INSERT_NOT_ACCEPTED = "INSERT INTO checks (pos,cashier_id,check_code,sum,date_stamp,deleted) " +
             "VALUES (?,?,?,?,?,?)";
     private static final String SQL_FIND_BY_ID = "SELECT c.id,c.pos,c.cashier_id,c.check_code,c.sum,c.date_stamp,c.deleted FROM checks c " +
@@ -56,6 +58,26 @@ public class CheckDaoImpl implements CheckDao {
         }catch (SQLException e){
             throw new RuntimeException("Check not found or SQLException: " + "/n" + e);
         }
+    }
+
+    @Override
+    public ArrayList<Check> findCheckByDate(Timestamp startDate, Timestamp endDate) {
+        ArrayList<Check> checkArrayList = new ArrayList<>();
+
+        try (Connection connection = dataBaseManager.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_TAKE_SUM_BY_DATE);
+            preparedStatement.setTimestamp(1, startDate);
+            preparedStatement.setTimestamp(2, endDate);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Check check = mapRow(resultSet);
+                checkArrayList.add(check);
+            }
+        } catch (SQLException e) {
+            System.out.println("Чеки по дате не найдены.");
+            return null;
+        }
+        return checkArrayList;
     }
 
     @Override
