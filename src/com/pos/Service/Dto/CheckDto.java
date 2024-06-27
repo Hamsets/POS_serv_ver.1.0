@@ -53,7 +53,7 @@ public class CheckDto {
         goodsDtoList.clear();
     }
 
-    public void addGoods(Long i) {
+    public void addGoods(int i) {
 
         Goods currGoods = new Goods();
         currGoods.setGoodsType(i);

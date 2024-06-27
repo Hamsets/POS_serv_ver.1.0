@@ -2,8 +2,10 @@ package com.pos.Service;
 
 import com.pos.Data.Connection.DataBaseManager;
 import com.pos.Data.Dao.CheckDao;
+import com.pos.Data.Dao.GoodsDao;
 import com.pos.Data.Dao.UserDao;
 import com.pos.Data.Dao.impl.CheckDaoImpl;
+import com.pos.Data.Dao.impl.GoodsDaoImpl;
 import com.pos.Data.Dao.impl.UserDaoImpl;
 import com.pos.Data.Entities.Check;
 import com.pos.Data.Entities.Goods;
@@ -14,12 +16,9 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.net.*;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.SimpleTimeZone;
 import java.util.TimeZone;
 
 class POS_serv {
@@ -62,6 +61,13 @@ class POS_serv {
 						break;
 						case "READ_CHECK":
 							break; //FIXME need code
+						case "READ_GOODS":
+							String goodsListStr;
+							goodsListStr = getGoodsListStr(readedStr);
+							writer.write(goodsListStr +"\n");
+							System.out.println(goodsListStr);
+							writer.flush();
+							break;
 						case "WRITE_USER":
 							break; //FIXME need code
 						case "READ_USER":
@@ -85,6 +91,26 @@ class POS_serv {
 			} catch (Exception ex) {ex.printStackTrace();}
 		}
 	}// закрываем вложенный класс
+
+	private String getGoodsListStr (String readedStr){//FIXME need code
+		String[] arrayStr = readedStr.split("#");
+		ArrayList<Goods> goodsArrayList = new ArrayList<>();
+		GoodsDao checkDao = new GoodsDaoImpl(new DataBaseManager());
+		String goodsArrayListStr = null;
+
+		if (arrayStr.length>2 && !arrayStr[1].isBlank() && !arrayStr[2].isBlank()){
+			goodsArrayList = checkDao.findGoods(Integer.parseInt(arrayStr[1]), arrayStr[2]);
+
+			goodsArrayListStr = goodsArrayList.get(1).toString();
+
+			for (Goods goods : goodsArrayList) {
+				goodsArrayListStr = goodsArrayListStr + goods.toString() + "#"; //FIXME получается задвоение 1 товара в List
+			}
+		}
+
+
+		return goodsArrayListStr;
+	}
 
 	private BigDecimal getSummByDate(String readedStr) {
 		String[] arrayStr = readedStr.split("#");
@@ -189,7 +215,8 @@ class POS_serv {
 //				t.join();
  				System.out.println ("Connected!");
 			}
-		} catch (Exception ex) {ex.printStackTrace();}
+		} catch (Exception ex) {ex.printStackTrace();
+		}
 	}// закрываем go
 
 }
