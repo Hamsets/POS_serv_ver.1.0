@@ -23,7 +23,7 @@ public class GoodsDaoImpl implements GoodsDao {
     }
 
     @Override
-    public ArrayList<Goods> findGoods(int goodsType, String pos) {
+    public ArrayList<Goods> findGoods(long goodsType, String pos) {
         ArrayList<Goods> goodsArrayList = new ArrayList<>();
 
         if (goodsType == -1){
@@ -43,7 +43,7 @@ public class GoodsDaoImpl implements GoodsDao {
         } else {
             try (Connection connection = dataBaseManager.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_GOODS);
-            preparedStatement.setInt(1, goodsType);
+            preparedStatement.setLong(1, goodsType);
             preparedStatement.setString(2, pos);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -64,7 +64,7 @@ public class GoodsDaoImpl implements GoodsDao {
     private Goods mapRow(ResultSet resultSet) throws SQLException {
 
         return new Goods(
-                resultSet.getInt("goods_type"),
+                resultSet.getLong("goods_type"),
                 1,
                 resultSet.getString("image_name"),
                 resultSet.getString("public_name"),
@@ -78,12 +78,12 @@ public class GoodsDaoImpl implements GoodsDao {
 
 
     @Override
-    public boolean updateGoodsById(int id, Goods newGoods) {
+    public boolean updateGoodsById(long id, Goods newGoods) {
         return false;
     }
 
     @Override
-    public boolean deleteGoodsById(int id) {
+    public boolean deleteGoodsById(long id) {
         return false;
     }
 }
