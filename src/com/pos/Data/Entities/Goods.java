@@ -13,7 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Goods {
 
-    private long goodsType;
+    private int goodsType;
     private int quantityGoods;
     private String imageName;
     private String publicName;
@@ -41,9 +41,20 @@ public class Goods {
 
     private static Goods createGoodsFromShortString(String strGoodsQuantity) {
         String[] arrayGoodsQuantity = strGoodsQuantity.split("\\\\");
-        Goods goods = new Goods(Long.parseLong(arrayGoodsQuantity[0]), Integer.parseInt(arrayGoodsQuantity[1]),
+        Goods goods = new Goods(Integer.parseInt(arrayGoodsQuantity[0]), Integer.parseInt(arrayGoodsQuantity[1]),
                 null,null,null,null,null,null,null);
         return goods;
     }
 
+    public String toString() {
+        return goodsType + "/"
+                + quantityGoods + "/"
+                + imageName + "/"
+                + publicName + "/"
+                + pathImage + "/"
+                + prize + "/"
+                + isActive + "/"
+                + forPos + "/"
+                + deleted;
+    }
 }

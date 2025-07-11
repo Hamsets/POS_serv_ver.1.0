@@ -7,17 +7,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.java.Log;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class CheckDto {
-//    private ArrayList<Goods> goodsList = new ArrayList<>();
 
     private Long id;
     private String pos;
@@ -47,40 +46,6 @@ public class CheckDto {
         } else {
             return false;
         }
-    }
-
-    public void clear(){
-        goodsDtoList.clear();
-    }
-
-    public void addGoods(int i) {
-
-        Goods currGoods = new Goods();
-        currGoods.setGoodsType(i);
-        Boolean foundGoodsInCheck = false;
-
-        //если check - создан (повторный выбор товара), проверяем наличие в чека такого же товара
-        if (!goodsDtoList.isEmpty()) {
-
-            //поиск в check аналогичного currGoods с typeGoods =i
-            for (int x = 0; x < (goodsDtoList.size()); x++) {
-
-                //если есть, то setIncreaseQuantityGoods и замена данной позиции check на currGoods
-                if (goodsDtoList.get(x).getGoodsType() == currGoods.getGoodsType()) {
-                    Goods compGoods = goodsDtoList.get(x);
-                    compGoods.setIncreaseQuantityGoods();
-                    goodsDtoList.set(x,compGoods);
-                    foundGoodsInCheck = true;
-                    break;
-                }
-            }
-        }
-
-        //если check не пустой и не найдено совпадение то добавляем в конце
-        if (!foundGoodsInCheck) {
-            goodsDtoList.add(currGoods);
-        }
-
     }
 
     @Override

@@ -163,7 +163,7 @@ public class UserDaoImpl implements UserDao {
         }catch (SQLException e){
             throw new RuntimeException("User not found or SQLException: " + "/n" + e);
         }
-        return deleted;
+        return deleted;  //FIXME всегда результат будет true
     }
 
     private User mapRow(ResultSet resultSet) throws SQLException {

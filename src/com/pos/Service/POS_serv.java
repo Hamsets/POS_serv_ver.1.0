@@ -65,7 +65,7 @@ class POS_serv {
 							String goodsListStr;
 							goodsListStr = getGoodsListStr(readedStr);
 							writer.write(goodsListStr +"\n");
-							System.out.println(goodsListStr);
+							System.out.println("Отправляем данные:" + goodsListStr);
 							writer.flush();
 							break;
 						case "WRITE_USER":
@@ -92,23 +92,17 @@ class POS_serv {
 		}
 	}// закрываем вложенный класс
 
-	private String getGoodsListStr (String readedStr){//FIXME need code
+	private String getGoodsListStr (String readedStr){
 		String[] arrayStr = readedStr.split("#");
-		ArrayList<Goods> goodsArrayList = new ArrayList<>();
-		GoodsDao checkDao = new GoodsDaoImpl(new DataBaseManager());
-		String goodsArrayListStr = null;
-
+		String goodsArrayListStr = "";
 		if (arrayStr.length>2 && !arrayStr[1].isBlank() && !arrayStr[2].isBlank()){
-			goodsArrayList = checkDao.findGoods(Integer.parseInt(arrayStr[1]), arrayStr[2]);
-
-			goodsArrayListStr = goodsArrayList.get(1).toString();
+			GoodsDao checkDao = new GoodsDaoImpl(new DataBaseManager());
+			ArrayList<Goods> goodsArrayList = checkDao.findGoods(Integer.parseInt(arrayStr[1]), arrayStr[2]);
 
 			for (Goods goods : goodsArrayList) {
-				goodsArrayListStr = goodsArrayListStr + goods.toString() + "#"; //FIXME получается задвоение 1 товара в List
-			}
-		}
-
-
+				goodsArrayListStr = goodsArrayListStr + goods.toString() + "#"; //FIXME если будет создаваться пустой
+			}																	//FIXME товар в клиенте, то для последнего
+		}																		//FIXME товара убрать #
 		return goodsArrayListStr;
 	}
 
