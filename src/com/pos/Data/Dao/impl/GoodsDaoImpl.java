@@ -27,26 +27,14 @@ public class GoodsDaoImpl implements GoodsDao {
 
         if (goodsType == -1){
             try (Connection connection = dataBaseManager.getConnection()) {
-//                PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_ALL_GOODS);
-//                preparedStatement.setString(1, pos);
-//                ResultSet resultSet = preparedStatement.executeQuery();
+                PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_ALL_GOODS);
+                preparedStatement.setString(1, pos);
+                ResultSet resultSet = preparedStatement.executeQuery();
 
-                Statement statement = null;
-                statement = connection.createStatement();
-//                statement.executeUpdate("SELECT c.goods_type,c.image_name,c.public_name,c.path_image,c.prize,c.is_active,c.for_pos,c.deleted FROM goods c " +
-//                        "WHERE c.for_pos = 'part' AND c.deleted = false");
-
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM public.goods4");
-                System.out.println(resultSet.next());
-                System.out.println(resultSet.getString("image_name"));
-                connection.close();
-//                Goods goods = mapRow(resultSet);
-//                goodsArrayList.add(goods);
-
-//                while (resultSet.next()) {
-//                    Goods goods = mapRow(resultSet);
-//                    goodsArrayList.add(goods);
-//                }
+                while (resultSet.next()) {
+                    Goods goods = mapRow(resultSet);
+                    goodsArrayList.add(goods);
+                }
             } catch (SQLException e) {
                 System.out.println(e.toString());
                 goodsArrayList.add(new Goods());
