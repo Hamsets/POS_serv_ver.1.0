@@ -100,9 +100,9 @@ class POS_serv {
 			ArrayList<Goods> goodsArrayList = checkDao.findGoods(Integer.parseInt(arrayStr[1]), arrayStr[2]);
 
 			for (Goods goods : goodsArrayList) {
-				goodsArrayListStr = goodsArrayListStr + goods.toString() + "#"; //FIXME если будет создаваться пустой
-			}																	//FIXME товар в клиенте, то для последнего
-		}																		//FIXME товара убрать #
+				goodsArrayListStr = goodsArrayListStr + goods.toString() + "#";
+			}
+		}
 		return goodsArrayListStr;
 	}
 
