@@ -2,7 +2,6 @@ package com.pos.Data.Dao.impl;
 
 import com.pos.Data.Connection.DataBaseManager;
 import com.pos.Data.Dao.GoodsDao;
-import com.pos.Data.Entities.Check;
 import com.pos.Data.Entities.Goods;
 import java.math.BigDecimal;
 import java.sql.*;
@@ -12,7 +11,7 @@ public class GoodsDaoImpl implements GoodsDao {
     private final DataBaseManager dataBaseManager;
     private static final String SQL_FIND_GOODS = "SELECT c.goods_type,c.image_name,c.public_name,c.path_image,c.prize,c.is_active,c.for_pos,c.deleted FROM goods c " +
             "WHERE c.goods_type = ? AND c.for_pos = ? AND c.deleted = false";
-    private static final String SQL_FIND_ALL_GOODS = "SELECT c.goods_type,c.image_name,c.public_name,c.path_image,c.prize,c.is_active,c.for_pos,c.deleted FROM goods c " +
+    private static final String SQL_FIND_ALL_GOODS_BU_POS = "SELECT c.goods_type,c.image_name,c.public_name,c.path_image,c.prize,c.is_active,c.for_pos,c.deleted FROM goods c " +
             "WHERE c.for_pos = ? AND c.deleted = false";
     public GoodsDaoImpl (DataBaseManager dataBaseManager) {this.dataBaseManager = dataBaseManager;}
 
@@ -25,9 +24,11 @@ public class GoodsDaoImpl implements GoodsDao {
     public ArrayList<Goods> findGoods(int goodsType, String pos) {
         ArrayList<Goods> goodsArrayList = new ArrayList<>();
 
+        //Если пришел запрос -1, то отображаем все товары, если пришел id - то только этот товар
+
         if (goodsType == -1){
             try (Connection connection = dataBaseManager.getConnection()) {
-                PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_ALL_GOODS);
+                PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_ALL_GOODS_BU_POS);
                 preparedStatement.setString(1, pos);
                 ResultSet resultSet = preparedStatement.executeQuery();
 

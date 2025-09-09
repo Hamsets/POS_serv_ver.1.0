@@ -52,23 +52,36 @@ class POS_serv {
 
 
 					switch (arrayReadedStr[0]) {
-						case "WRITE_CHECK":
+						case "WRITE_NEW_CHECK":
 							checkDto = new CheckDto(readedStr);
 							int hash = writeCheckToDb(checkDto);
 							writer.write(hash +"\n");
 							System.out.println(hash);
 							writer.flush();
 						break;
-						case "READ_CHECK":
-							break; //FIXME need code
-						case "READ_GOODS":
-							String goodsListStr;
-							goodsListStr = getGoodsListStr(readedStr);
-							writer.write(goodsListStr +"\n");
-							System.out.println("Отправляем данные:" + goodsListStr);
+						case "READ_CHECK_BY_DATE":
+							String checksFullStr;
+							checksFullStr = getChecksByDate(readedStr);
+							writer.write(checksFullStr + "\n");
+							System.out.println("Отправляем чеки по дате с сервера:" + checksFullStr);
 							writer.flush();
 							break;
-						case "WRITE_USER":
+						case "DELETE_CHECK_BY_ID":
+							Boolean bool;
+							bool = deleteCheck(readedStr);
+							System.out.println("Отправка клиенту результат удаления в базе чека: " + bool.toString());
+							writer.write(bool.toString() + "\n");
+							writer.flush();
+							System.out.println("Чек(и) удален(ы).");
+							break;
+						case "READ_GOODS":
+							String goodsFullStr;
+							goodsFullStr = getGoodsFullStr(readedStr);
+							writer.write(goodsFullStr +"\n");
+							System.out.println("Отправляем товары с сервера:" + goodsFullStr);
+							writer.flush();
+							break;
+						case "WRITE_NEW_USER":
 							break; //FIXME need code
 						case "READ_USER":
 							break;//FIXME need code
@@ -92,18 +105,43 @@ class POS_serv {
 		}
 	}// закрываем вложенный класс
 
-	private String getGoodsListStr (String readedStr){
+	private String getChecksByDate (String readedStr){
 		String[] arrayStr = readedStr.split("#");
-		String goodsArrayListStr = "";
-		if (arrayStr.length>2 && !arrayStr[1].isBlank() && !arrayStr[2].isBlank()){
-			GoodsDao checkDao = new GoodsDaoImpl(new DataBaseManager());
-			ArrayList<Goods> goodsArrayList = checkDao.findGoods(Integer.parseInt(arrayStr[1]), arrayStr[2]);
-
-			for (Goods goods : goodsArrayList) {
-				goodsArrayListStr = goodsArrayListStr + goods.toString() + "#";
+		String checksFullStr = "";
+		if (arrayStr.length>1 && !arrayStr[1].isBlank()){
+			CheckDao checkDao = new CheckDaoImpl(new DataBaseManager());
+			ArrayList<Check> checkArrayList = checkDao.findCheckByDate(Timestamp.valueOf(getStrForStartTimestamp(arrayStr[1])),
+					Timestamp.valueOf(getStrForEndTimestamp(arrayStr[1])));
+			for (Check check : checkArrayList) {
+				checksFullStr = checksFullStr + check.toString() +"#";
 			}
 		}
-		return goodsArrayListStr;
+		return checksFullStr;
+	}
+	private Boolean deleteCheck (String readedStr){
+		String[] arrayStr = readedStr.split("#");
+		if (arrayStr.length>1 && !arrayStr[1].isBlank()){
+			for (int i = 1; i < arrayStr.length; i++){
+				CheckDao checkDao = new CheckDaoImpl(new DataBaseManager());
+				checkDao.deleteById(Long.parseLong(arrayStr[i]));
+			}
+			return true;
+		}
+		return false;
+	}
+
+	private String getGoodsFullStr(String readedStr){
+		String[] arrayStr = readedStr.split("#");
+		String goodsFullStr = "";
+		if (arrayStr.length>2 && !arrayStr[1].isBlank() && !arrayStr[2].isBlank()){
+			GoodsDao goodsDao = new GoodsDaoImpl(new DataBaseManager());
+			ArrayList<Goods> goodsArrayList = goodsDao.findGoods(Integer.parseInt(arrayStr[1]), arrayStr[2]);
+
+			for (Goods goods : goodsArrayList) {
+				goodsFullStr = goodsFullStr + goods.toString() + "#";
+			}
+		}
+		return goodsFullStr;
 	}
 
 	private BigDecimal getSummByDate(String readedStr) {
@@ -131,17 +169,13 @@ class POS_serv {
 		BigDecimal sum = new BigDecimal(0);
 
 		if (arrayStr.length>1 && !arrayStr[1].isBlank()){
-			String[] dateStartArr = arrayStr[1].split("/");
-			String dateStartStr = dateStartArr[2] + "-" + dateStartArr[1] + "-" + dateStartArr[0] + " 00:00:01";
-			startDate = Timestamp.valueOf(dateStartStr);
+			startDate = Timestamp.valueOf(getStrForStartTimestamp(arrayStr[1]));
 		} else if (arrayStr.length>1 && arrayStr[1].isBlank()) {
 			startDate = Timestamp.valueOf(MIN_START_DATE_STR);
 		}
 
 		if (arrayStr.length>2 && !arrayStr[2].isBlank()){
-			String[] dateEndArr = arrayStr[2].split("/");
-			String dateEndtStr = dateEndArr[2] + "-" + dateEndArr[1] + "-" + dateEndArr[0] + " 23:59:59";
-			endDate = Timestamp.valueOf(dateEndtStr);
+			endDate = Timestamp.valueOf(getStrForEndTimestamp(arrayStr[2]));
 		}
 
 		checkArrayList = checkDao.findCheckByDate(startDate,endDate);
@@ -152,6 +186,18 @@ class POS_serv {
 			}
 		}
 		return sum;
+	}
+
+	//универсальный метод получения строки для Timestamp для начала выборки чеков
+	private String getStrForStartTimestamp (String s){
+		String[] dateStartArr = s.split("/");
+		return dateStartArr[2] + "-" + dateStartArr[1] + "-" + dateStartArr[0] + " 00:00:01";
+	}
+
+	//универсальный метод получения строки для Timestamp для конца выборки чеков
+	private String getStrForEndTimestamp (String s){
+		String[] dateEndArr = s.split("/");
+		return dateEndArr[2] + "-" + dateEndArr[1] + "-" + dateEndArr[0] + " 23:59:59";
 	}
 
 	private String compareUserDb(UserDto userDto) {

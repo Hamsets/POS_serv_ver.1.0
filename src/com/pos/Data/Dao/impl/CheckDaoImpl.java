@@ -101,7 +101,15 @@ public class CheckDaoImpl implements CheckDao {
 
     @Override
     public boolean deleteById(Long id) {
-        return false;
+        try (Connection connection = dataBaseManager.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
+            statement.setLong(1, id);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private Check mapRow(ResultSet resultSet) throws SQLException {
