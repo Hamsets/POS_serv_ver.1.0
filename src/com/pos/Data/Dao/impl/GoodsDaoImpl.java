@@ -9,16 +9,50 @@ import java.util.ArrayList;
 
 public class GoodsDaoImpl implements GoodsDao {
     private final DataBaseManager dataBaseManager;
-    private static final String SQL_FIND_GOODS = "SELECT c.goods_type,c.image_name,c.public_name,c.path_image,c.prize,c.is_active,c.for_pos,c.deleted FROM goods c " +
-            "WHERE c.goods_type = ? AND c.for_pos = ? AND c.deleted = false";
-    private static final String SQL_FIND_ALL_GOODS_BU_POS = "SELECT c.goods_type,c.image_name,c.public_name,c.path_image,c.prize,c.is_active,c.for_pos,c.deleted FROM goods c " +
-            "WHERE c.for_pos = ? AND c.deleted = false";
+    private static final String SQL_FIND_GOODS = "SELECT c.goods_type,c.image_name,c.public_name,c.path_image,c.prize,"
+            + "c.is_active,c.for_pos,c.deleted FROM goods c WHERE c.goods_type = ? "
+            + "AND c.for_pos = ? "
+            + "AND c.deleted = false";
+    private static final String SQL_FIND_ALL_GOODS_BU_POS = "SELECT c.goods_type,c.image_name,c.public_name," +
+            "c.path_image,c.prize,c.is_active,c.for_pos,c.deleted FROM goods c " +
+            "WHERE c.for_pos = ? "
+            + "AND c.deleted = false";
+
+    private static final String SQL_FIND_ALL_GOODS_BY_ID = "SELECT c.goods_type,c.image_name,c.public_name,c.path_image," +
+            "c.prize,c.is_active,c.for_pos,c.deleted FROM goods c "
+            + "WHERE c.goods_type = ? ";
+
     public GoodsDaoImpl (DataBaseManager dataBaseManager) {this.dataBaseManager = dataBaseManager;}
 
     @Override
     public int writeGoods(Goods newGoods) {
         return 0;
     }
+
+    @Override
+    public Goods findGoodsById (int id){
+        Goods goods = new Goods();
+
+
+        try (Connection connection = dataBaseManager.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_ALL_GOODS_BY_ID);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Goods g = mapRow(resultSet);
+                goods = g;
+            }
+        } catch (SQLException e) {
+            System.out.println("Ошибка извлечения товара по типу из БД.");
+            System.out.println(e.toString());
+            goods = new Goods();
+        }
+
+
+        return goods;
+    }
+
 
     @Override
     public ArrayList<Goods> findGoods(int goodsType, String pos) {

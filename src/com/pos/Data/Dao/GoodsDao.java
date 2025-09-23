@@ -8,5 +8,6 @@ public interface GoodsDao {
     ArrayList<Goods> findGoods(int goodsType, String pos);
     boolean updateGoodsById (int id, Goods newGoods);
     boolean deleteGoodsById (int id);
+    Goods findGoodsById (int id);
 
 }

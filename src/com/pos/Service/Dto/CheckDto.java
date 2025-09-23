@@ -59,7 +59,14 @@ public class CheckDto {
         String checkCode = "";
         for (int x = 0; x < goodsDtoList.size(); x++) {
             checkCode = checkCode + goodsDtoList.get(x).getGoodsType() + "\\"
-                    + goodsDtoList.get(x).getQuantityGoods();
+                    + goodsDtoList.get(x).getQuantityGoods() + "\\"
+                    + goodsDtoList.get(x).getImageName() + "\\"
+                    + goodsDtoList.get(x).getPublicName() + "\\"
+                    + goodsDtoList.get(x).getPathImage() + "\\"
+                    + goodsDtoList.get(x).getPrize().toString() + "\\"
+                    + goodsDtoList.get(x).getIsActive().toString() + "\\"
+                    + goodsDtoList.get(x).getForPos() + "\\"
+                    + goodsDtoList.get(x).getDeleted().toString();
             if (x != (goodsDtoList.size()-1)){
                 checkCode = checkCode + "|";
             }

@@ -48,10 +48,18 @@ public class Check {
 
     private String getGoodsArrayListStr (){
         String fullGoodsStr = "";
-        String cellGoodsCode = "";
+
         for (Goods goods : goodsArrayList) {
-            cellGoodsCode = goods.getGoodsType() + "/" + goods.getQuantityGoods();
-            fullGoodsStr = cellGoodsCode + "\\";
+            fullGoodsStr = fullGoodsStr
+                    + goods.getGoodsType() + "/"
+                    + goods.getQuantityGoods() + "/"
+                    + goods.getImageName() + "/"
+                    + goods.getPublicName() + "/"
+                    + goods.getPathImage() + "/"
+                    + goods.getPrize().toString() + "/"
+                    + goods.getIsActive().toString() + "/"
+                    + goods.getForPos() + "/"
+                    + goods.getDeleted().toString() + "\\";
         }
         return fullGoodsStr;
     }
