@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS checks (
     id BIGSERIAL PRIMARY KEY UNIQUE NOT NULL,
     pos VARCHAR (50) NOT NULL,
     cashier_id BIGSERIAL NOT NULL,
-    check_code VARCHAR (200) NOT NULL,
+    check_code TEXT NOT NULL,
     sum NUMERIC NOT NULL,
     date_stamp TIMESTAMP NOT NULL UNIQUE,
     deleted BOOLEAN NOT NULL
