@@ -1,73 +1,50 @@
 package com.pos.Data.Entities;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.util.List;
 
-import com.pos.Data.Connection.DataBaseManager;
-import com.pos.Data.Dao.GoodsDao;
-import com.pos.Data.Dao.impl.GoodsDaoImpl;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
+@JsonAutoDetect
+@Entity
+@Table
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Goods {
 
-    private int goodsType;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column (name = "goods_id")
+    private int goodsId;
+
+    @Column (name = "quantity")
     private int quantityGoods;
+
+    @Column (name = "image_name")
     private String imageName;
+
+    @Column (name = "public_name")
     private String publicName;
+
+    @Column (name = "path_image")
     private String pathImage;
-    private BigDecimal prize = new BigDecimal(0);
+
+    @Column
+    private BigDecimal prize;
+
+    @Column (name ="is_active")
     private Boolean isActive;
-    private String forPos;
+
+    //TODO нужно сделать LASY для FethType - меньшая нагрузка на ресурсы сервера
+    @OneToMany (mappedBy = "posId", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private List<Pos> posIds;
+
+    @Column
     private Boolean deleted;
-
-    public static ArrayList<Goods> createGoodsListFromStr(String checkCode){
-        ArrayList<Goods> goodsList = new ArrayList<>();
-        String[] arrayGoodsStr = checkCode.split("\\|");
-        for (String s: arrayGoodsStr){
-            goodsList.add(createGoodsFromCheckCode(s));
-        }
-        return goodsList;
-    }
-
-    private static Goods createGoodsFromCheckCode(String goodsStr) {
-        String[] arrayGoodsStr = goodsStr.split("\\\\");
-        Goods goods;
-        if (arrayGoodsStr.length == 2){
-            goods = createRealGoods(arrayGoodsStr);
-        } else if (arrayGoodsStr.length > 2) {
-            goods = new Goods(Integer.parseInt(arrayGoodsStr[0]), Integer.parseInt(arrayGoodsStr[1]),
-                    arrayGoodsStr[2],arrayGoodsStr[3],arrayGoodsStr[4],new BigDecimal(arrayGoodsStr[5]),
-                    Boolean.parseBoolean(arrayGoodsStr[6]),arrayGoodsStr[7],Boolean.parseBoolean(arrayGoodsStr[8]));
-        } else {
-            return null;
-        }
-
-        return goods;
-    }
-
-    private static Goods createRealGoods (String[] arrayGoodsStr){
-        GoodsDao goodsDao = new GoodsDaoImpl(new DataBaseManager());
-        Goods goods;
-
-        goods = goodsDao.findGoodsById(Integer.parseInt(arrayGoodsStr[0]));
-        goods.setQuantityGoods(Integer.parseInt(arrayGoodsStr[1]));
-        return goods;
-    }
-
-    public String toString() {
-        return goodsType + "/"
-                + quantityGoods + "/"
-                + imageName + "/"
-                + publicName + "/"
-                + pathImage + "/"
-                + prize + "/"
-                + isActive + "/"
-                + forPos + "/"
-                + deleted;
-    }
 }

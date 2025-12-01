@@ -7,13 +7,13 @@ import java.util.ArrayList;
 
 public interface UserDao {
 
-    void createUser(User user);
-    User findUserById(Long id);
+    boolean createUser(User user);
+    User findUserById(int id);
     ArrayList<User> findUserByRole(String role);
     ArrayList<User> findUserByRating(BigDecimal low, BigDecimal high);
     ArrayList<User> findAllUsers();
-    void updateUser(User user);
-    boolean deleteById(Long id);
+    boolean updateUser(User user);
+    boolean deleteById(int id);
     User compareUser(UserDto userDto);
 
 }

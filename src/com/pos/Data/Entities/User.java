@@ -1,55 +1,45 @@
 package com.pos.Data.Entities;
 
 import java.math.BigDecimal;
-import java.util.Objects;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import lombok.*;
+import javax.persistence.*;
 
+@Entity
+@Table (name = "users")
 
-@Setter
-@Getter
-@AllArgsConstructor
+@JsonAutoDetect
 @NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class User {
 
-    private int id;
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @Column (name = "user_id")
+    private int userId;
+
+    @Column (name = "first_name")
     private String firstName;
+
+    @Column (name = "last_name")
     private String lastName;
+
+    @Column (name = "sur_name")
     private String surName;
+
+    @Column
     private String email;
+
+    @Column
+    private Role role;
+
+    @Column
     private String password;
-    private String role;
+
+    @Column
     private BigDecimal rating;
+
+    @Column
     private Boolean deleted;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id==user.id && firstName.equals(user.firstName) && lastName.equals(user.lastName)
-                && surName.equals(user.surName) && email.equals(user.email) && password.equals(user.password)
-                && role.equals(user.role) && rating.equals(user.rating) && deleted.equals(user.deleted);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstName, lastName, surName, email, password, role, rating, deleted);
-    }
-
-    @Override
-    public String toString() {
-        String result = id + "#"
-                + firstName + "#"
-                + lastName + "#"
-                + surName + "#"
-                + email + "#"
-                + role + "#"
-                + password + "#"
-                + rating + "#"
-                + deleted;
-        return result;
-    }
 }

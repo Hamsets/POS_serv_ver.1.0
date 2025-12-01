@@ -1,12 +1,15 @@
 package com.pos.Data.Dao;
 
 import com.pos.Data.Entities.Goods;
+import com.pos.Data.Entities.Pos;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public interface GoodsDao {
-    int writeGoods(Goods newGoods);
-    ArrayList<Goods> findGoods(int goodsType, String pos);
-    boolean updateGoodsById (int id, Goods newGoods);
+    boolean createGoods(Goods newGoods);
+    List<Goods> findAllGoods();
+    boolean updateGoods(Goods goods);
     boolean deleteGoodsById (int id);
     Goods findGoodsById (int id);
 
