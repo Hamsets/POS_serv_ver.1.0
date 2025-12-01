@@ -62,7 +62,7 @@ public class CheckDaoImpl implements CheckDao {
             session.beginTransaction();
             Query query = session.createQuery("From Check Where date_stamp > '"
                     + startDate.toString() + "' and date_stamp < '" + endDate.toString()
-                    + "' and pos_id = " + posId);
+                    + "' and pos_id = " + posId + " and deleted = false");
             checkArrayList = (ArrayList<Check>) query.list();
             session.getTransaction().commit();
         }catch (Exception e){
@@ -113,22 +113,30 @@ public class CheckDaoImpl implements CheckDao {
 
     @Override
     public boolean deleteById(int id) {
-        Session session = null;
+        Session sessionFind = null;
+        Session sessionUpdate = null;
         boolean deleted = false;
         try {
-            Check check = HibernateSessionFactoryUtil.getSessionFactory().openSession().get(Check.class, id);
+            sessionFind = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+            Check check = sessionFind.get(Check.class, id);
             check.setDeleted(true);
-            session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-            Transaction transaction = session.beginTransaction();
-            session.update(check);
+            sessionFind.close();
+
+            sessionUpdate = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+            Transaction transaction = sessionUpdate.beginTransaction();
+            sessionUpdate.update(check);
             transaction.commit();
+
             deleted = true;
         }catch (Exception e){
             System.out.println("Ошибка удаления чека в БД по id.");
             e.printStackTrace();
         }finally {
-            if (session != null && session.isOpen()) {
-                session.close();
+            if (sessionFind != null && sessionFind.isOpen()) {
+                sessionFind.close();
+            }
+            if (sessionUpdate != null && sessionUpdate.isOpen()) {
+                sessionUpdate.close();
             }
         }
         return deleted;

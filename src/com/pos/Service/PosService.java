@@ -248,8 +248,7 @@ class PosService {
 				CheckDao checkDao = new CheckDaoImpl();
 
 				for (int i = 1; i < arrayReadedStr.length; i++) {
-					checkDao.deleteById(Integer.parseInt(arrayReadedStr[i]));
-					deleted = true;
+					deleted = checkDao.deleteById(Integer.parseInt(arrayReadedStr[i]));
 				}
 
 				} catch (NullPointerException e){
