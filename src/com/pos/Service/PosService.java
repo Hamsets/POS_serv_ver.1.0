@@ -261,19 +261,24 @@ class PosService {
 	}
 
 	private int writeCheck(String readedStr) {
+		boolean created = false;
 		int hash = 0;
 		try {
 
 			//Получаем десериализированный Check и CheckDto
 			Check check = CheckDto.convertFromJson(readedStr);
-			long currTimeZone = 10800000L;//FIXME расхардкорить временную зону (в настройки POS)
-			long timeOfCheck = check.getDateStamp().getTime() - currTimeZone;
-			Timestamp timestamp = new Timestamp(timeOfCheck);
-			check.setDateStamp(timestamp);
+//			long currTimeZone = Long.parseLong(pR.getMapProperties().get("timeZoneMilliSec"));
+//			long timeOfCheck = check.getDateStamp().getTime() - currTimeZone;
+//			Timestamp timestamp = new Timestamp(timeOfCheck);
+//			check.setDateStamp(timestamp);
 			CheckDto checkDto = new CheckDto (check);
 
 			//Вносим в БД, получаем хэш
-			hash = checkDto.writeCheck();
+			created = checkDto.writeCheck();
+			if (created){
+				hash = countHash(check);
+			}
+
 			} catch (NullPointerException e){
 			System.out.println("Ошибка создания Check! \n" + e.getMessage());
 			} catch (RuntimeException e) {
@@ -289,6 +294,17 @@ class PosService {
 			accepted = true;
 		}
 		return accepted;
+	}
+	public int countHash(Check check) {
+		int hash;
+		long currTimeZone = Long.parseLong(pR.getMapProperties().get("timeZoneMilliSec"));
+		long timeOfCheck = check.getDateStamp().getTime() - currTimeZone;
+		Timestamp timestamp = new Timestamp(timeOfCheck);
+
+		String str = check.getPos().getPosId() + check.getUser().getUserId() + check.getSum().toString() +
+				timestamp + check.getDeleted().toString();
+		hash = Objects.hash(str);
+		return hash;
 	}
 
 //	private void updateAcceptedCheckToDb(String inputStr) {

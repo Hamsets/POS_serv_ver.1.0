@@ -9,7 +9,7 @@ import lombok.Getter;
 
 public class PropertiesReader {
 
-    public static final String CONFIG_PROPERTIES_PATH = "./config.properties";
+    public static final String CONFIG_PROPERTIES_PATH = "src/resources/config.properties";
     @Getter
     private HashMap<String,String> mapProperties = new HashMap<>();
 
@@ -24,6 +24,7 @@ public class PropertiesReader {
             mapProperties.put("db.password", property.getProperty("db.password"));
             mapProperties.put("dbText.path", property.getProperty("dbText.path"));
             mapProperties.put("portServer", property.getProperty("portServer"));
+            mapProperties.put("timeZoneMilliSec", property.getProperty("timeZoneMilliSec"));
             fileInputStream.close();
         } catch (IOException e){
             e.printStackTrace();

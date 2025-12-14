@@ -17,10 +17,10 @@ public class HibernateSessionFactoryUtil {
         if (sessionFactory == null) {
             try {
                 Configuration configuration = new Configuration().configure(
-                        "com/pos/Data/Dao/impl/hibernate.cfg.xml");
-                configuration.addAnnotatedClass(Check.class);//FIXME временно нужно закоментить, чтобы отсечь ошибки
-                configuration.addAnnotatedClass(Goods.class);//FIXME временно нужно закоментить, чтобы отсечь ошибки
-                configuration.addAnnotatedClass(Pos.class);//FIXME временно нужно закоментить, чтобы отсечь ошибки
+                        "/hibernate.cfg.xml");
+                configuration.addAnnotatedClass(Check.class);
+                configuration.addAnnotatedClass(Goods.class);
+                configuration.addAnnotatedClass(Pos.class);
                 configuration.addAnnotatedClass(User.class);
                 StandardServiceRegistryBuilder builder =
                         new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());

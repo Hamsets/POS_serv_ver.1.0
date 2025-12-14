@@ -15,15 +15,16 @@ import java.util.ArrayList;
 public class CheckDaoImpl implements CheckDao {
 
     @Override
-    public int createCheck(Check check) {
+    public boolean createCheck(Check check) {
         Session session = null;
         int createdHash = 0;
+        boolean created = false;
         try {
             session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
             session.save(check);
             transaction.commit();
-            createdHash = new CheckDto(check).hashCode();
+            created = true;
         } catch (Exception e){
             System.out.println("Ошибка создания пользователя в БД.");
             e.printStackTrace();
@@ -32,7 +33,7 @@ public class CheckDaoImpl implements CheckDao {
                 session.close();
             }
         }
-        return createdHash;
+        return created;
     }
 
     @Override
@@ -93,23 +94,7 @@ public class CheckDaoImpl implements CheckDao {
             }
         }
         return checkArrayList;
-
     }
-
-    //TODO вообще убрать подтверждение чека для записи
-//    @Override
-//    public void updateCheckAccepted(String inputStr) {
-//        String[] arrayInputStr = inputStr.split("#");
-//        Timestamp acceptedCheckTimeStamp = Timestamp.valueOf(arrayInputStr[1]);
-//
-//        try (Connection connection = dataBaseManager.getConnection()) {
-//            PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_ACCEPTED);
-//            statement.setTimestamp(1, acceptedCheckTimeStamp);
-//            statement.executeUpdate();
-//        } catch (SQLException e){
-//            e.printStackTrace();
-//        }
-//    }
 
     @Override
     public boolean deleteById(int id) {

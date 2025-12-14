@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public interface CheckDao {
-    int createCheck(Check check);
+    boolean createCheck(Check check);
     Check findCheckById (int id);
     ArrayList<Check> findCheckByPos (Pos pos);
     ArrayList<Check> findCheckByDate(Timestamp startDate, Timestamp endDate, int posId);

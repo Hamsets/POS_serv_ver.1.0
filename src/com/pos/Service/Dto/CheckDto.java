@@ -87,7 +87,7 @@ public class CheckDto {
         return check;
     }
 
-    public int writeCheck(){
+    public boolean writeCheck(){
         CheckDao checkDao = new CheckDaoImpl();
         Check check = this.getEntity();
         return checkDao.createCheck(check);
