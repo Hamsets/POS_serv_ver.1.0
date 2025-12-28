@@ -26,7 +26,7 @@ public class CheckDaoImpl implements CheckDao {
             transaction.commit();
             created = true;
         } catch (Exception e){
-            System.out.println("Ошибка создания пользователя в БД.");
+            System.out.println("Ошибка создания чека в БД.");
             e.printStackTrace();
         } finally {
             if (session != null && session.isOpen()) {

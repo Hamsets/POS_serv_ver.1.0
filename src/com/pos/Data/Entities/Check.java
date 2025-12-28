@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -39,9 +40,16 @@ public class Check {
     private Timestamp dateStamp;
 
     //TODO нужно сделать LASY для FethType - меньшая нагрузка на ресурсы сервера
-    @OneToMany (mappedBy = "goodsId", cascade = CascadeType.ALL, fetch = FetchType.EAGER,
-            orphanRemoval = true)
-    private List<Goods> goodsArrayList;
+//    @OneToMany (mappedBy = "soldGoodsId", cascade = CascadeType.ALL, fetch = FetchType.EAGER,
+//            orphanRemoval = true)
+    //Hibernate не должен видеть данное поле
+    @Transient
+    private List<SoldGoods> soldGoodsList;
+
+    //при сериализации в JSON данное поле пропускается
+    @JsonIgnore
+    @Column(name = "sold_goods_str")
+    private String listOfSoldGoodsStr;
 
     @Column
     private Boolean deleted;

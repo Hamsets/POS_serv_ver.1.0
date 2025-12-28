@@ -1,9 +1,6 @@
 package com.pos.Utils;
 
-import com.pos.Data.Entities.Check;
-import com.pos.Data.Entities.Goods;
-import com.pos.Data.Entities.Pos;
-import com.pos.Data.Entities.User;
+import com.pos.Data.Entities.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -22,6 +19,7 @@ public class HibernateSessionFactoryUtil {
                 configuration.addAnnotatedClass(Goods.class);
                 configuration.addAnnotatedClass(Pos.class);
                 configuration.addAnnotatedClass(User.class);
+                configuration.addAnnotatedClass(SoldGoods.class);
                 StandardServiceRegistryBuilder builder =
                         new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
                 sessionFactory = configuration.buildSessionFactory(builder.build());

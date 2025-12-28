@@ -19,7 +19,7 @@ import java.util.List;
 public class GoodsDto {
 
     private int id;
-    private int quantityGoods;
+    private int forPos;
     private String imageName;
     private String publicName;
     private String pathImage;
@@ -30,7 +30,7 @@ public class GoodsDto {
 
     public GoodsDto (Goods goods){
         this.id = goods.getGoodsId();
-        this.quantityGoods = goods.getQuantityGoods();
+        this.forPos = goods.getForPos();
         this.imageName = goods.getImageName();
         this.publicName = goods.getPublicName();
         this.pathImage = goods.getPathImage();
@@ -79,7 +79,7 @@ public class GoodsDto {
 
 
     public Goods getEntity (){
-        return new Goods(this.id, this.quantityGoods, this.imageName, this.publicName, this.pathImage, this.prize,
+        return new Goods(this.id, this.forPos, this.imageName, this.publicName, this.pathImage, this.prize,
                 this.isActive, this.posIds, this.deleted );
     }
 }

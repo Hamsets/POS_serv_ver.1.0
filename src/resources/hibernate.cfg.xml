@@ -34,6 +34,7 @@
         <mapping class="com.pos.Data.Entities.Pos"/>
         <mapping class="com.pos.Data.Entities.Check"/>
         <mapping class="com.pos.Data.Entities.Goods"/>
+        <mapping class="com.pos.Data.Entities.SoldGoods"/>
 
     </session-factory>
 </hibernate-configuration>

@@ -78,7 +78,7 @@ class PosService {
 							writer.flush();
 							System.out.println("Чек(и) удален(ы).");
 							break;
-						case "READ_GOODS": //TODO проверить клиент
+						case "READ_GOODS":
 							String goodsFullStr = getGoodsFullStr(Integer.parseInt(arrayReadedStr[1]));
 							writer.write(goodsFullStr +"\n");
 							System.out.println("Отправляем товары с сервера:" + goodsFullStr);
@@ -306,37 +306,6 @@ class PosService {
 		hash = Objects.hash(str);
 		return hash;
 	}
-
-//	private void updateAcceptedCheckToDb(String inputStr) {
-//		CheckDao checkDao = new CheckDaoImpl(new DataBaseManager());
-//
-//		try { checkDao.updateCheckAccepted(inputStr);
-//		} catch (RuntimeException e) {
-//			System.out.println("Network error!!! \n" + e.getMessage());
-//		}
-//	}
-
-//	//Конвертируем Object в JSON
-//	private String objToJson (Object o){
-//
-//		String resStr = "";
-//
-//		//Пишем результат сериализации в writer
-//		StringWriter writer = new StringWriter();
-//
-//		//это объект Jackson, который выполняет сериализацию
-//		ObjectMapper mapper = new ObjectMapper();
-//
-//		//сериализация
-//        try {
-//            mapper.writeValue(writer, o);
-//			resStr = writer.toString();
-//        } catch (IOException e) {
-//			System.out.println("Ошибка создания JSON.");
-//            e.printStackTrace();
-//        }
-//		return resStr;
-//    }
 
 	public static void main (String [] args) {
 		new PosService().go();

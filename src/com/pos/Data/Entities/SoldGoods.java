@@ -1,7 +1,6 @@
 package com.pos.Data.Entities;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.AllArgsConstructor;
@@ -12,19 +11,21 @@ import javax.persistence.*;
 
 @JsonAutoDetect
 @Entity
-@Table
+@Table(name = "sold_goods")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Goods {
-
+public class SoldGoods {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column (name = "sold_goods_id")
+    private int soldGoodsId;
+
     @Column (name = "goods_id")
     private int goodsId;
 
-    @Column (name = "for_pos")
-    private int forPos;
+    @Column (name = "quantity")
+    private int quantity;
 
     @Column (name = "image_name")
     private String imageName;
@@ -38,13 +39,10 @@ public class Goods {
     @Column
     private BigDecimal prize;
 
-    @Column (name ="is_active")
-    private Boolean isActive;
-
     //TODO нужно сделать LASY для FethType - меньшая нагрузка на ресурсы сервера
-    @OneToMany (mappedBy = "posId", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private List<Pos> posIds;
-
-    @Column
-    private Boolean deleted;
+//    @ManyToOne (fetch = FetchType.EAGER)
+//    @JoinColumn (name = "check_id")
+//    private Check check;
+//    @Column (name = "check_id")
+//    private int checkId;
 }

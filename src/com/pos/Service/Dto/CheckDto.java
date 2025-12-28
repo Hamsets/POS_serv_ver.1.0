@@ -3,8 +3,7 @@ package com.pos.Service.Dto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pos.Data.Dao.CheckDao;
 import com.pos.Data.Dao.impl.CheckDaoImpl;
-import com.pos.Data.Entities.Check;
-import com.pos.Data.Entities.Goods;
+import com.pos.Data.Entities.*;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -15,8 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import com.pos.Data.Entities.Pos;
-import com.pos.Data.Entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,31 +23,56 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CheckDto {
 
-    private int id;
+    private int checkId;
     private Pos pos;
     private User user;
     private BigDecimal sum;
-    //    private Date date;
     private Timestamp dateStamp;
-    private String checkCode;
-    private List<Goods> goodsDtoList;
+    private List<SoldGoods> soldGoodsList;
+    private String listOfSoldGoodsStr;
     private Boolean deleted;
     private static final String TAG = "logsCheckDto";
 
     public CheckDto (Check check){
-        this.id = check.getCheckId();
+        this.checkId = check.getCheckId();
         this.pos = check.getPos();
         this.user = check.getUser();
         this.sum = check.getSum();
         this.dateStamp = check.getDateStamp();
-//        this.checkCode = check.getCheckCode();
-        this.goodsDtoList = check.getGoodsArrayList();
+        this.soldGoodsList = check.getSoldGoodsList();//При создании из чека - в чеке нет стринги товаров
+        this.listOfSoldGoodsStr = convListOfSoldGoodsTosStr(soldGoodsList); //Генерируем стрингу товаров из списка товаров
         this.deleted = check.getDeleted();
     }
 
     public Check getEntity() throws NullPointerException{
-        return new Check(this.id, this.pos, this.user, this.sum, this.dateStamp,
-                this.goodsDtoList, this.deleted);
+        return new Check(this.checkId, this.pos, this.user, this.sum, this.dateStamp,
+                this.soldGoodsList, this.listOfSoldGoodsStr, this.deleted);
+    }
+
+    //Получение в чеке стринги проданных товаров
+    //Метод будет работатть только если стринга списка товаров пуста
+    private String convListOfSoldGoodsTosStr(List<SoldGoods> list){
+        String s ="";
+        if (listOfSoldGoodsStr == null || listOfSoldGoodsStr.isEmpty()){
+            for (SoldGoods soldGoods: list){
+                s = s + SoldGoodsDto.convertToJson(soldGoods) + "<*>";
+            }
+        }
+        return s;
+    }
+
+    //Получение в чеке восстановленного списка проданных товаров
+    public static List<SoldGoods> convStrToListOfSoldGoods(String s){
+        List<SoldGoods> list = new ArrayList<>();
+
+        String[] arr =  s.split("<*>");
+
+        for (String str : arr){
+            SoldGoods goods = new SoldGoods();
+            goods = SoldGoodsDto.convertFromJson(str);
+            list.add(goods);
+        }
+        return list;
     }
 
     public static String convertToJson (Check check) throws NullPointerException{
@@ -95,9 +117,19 @@ public class CheckDto {
 
     public static ArrayList<Check> getCheckByDatePos (Timestamp startDate, Timestamp endDate, int posId){
         ArrayList<Check> checkArrayList;
+        ArrayList<Check> fullChrckArrayList = new ArrayList<>();
         CheckDao checkDao = new CheckDaoImpl();
+
+        //Получаем из базы чек с пустым списком товаров
         checkArrayList = checkDao.findCheckByDate(startDate, endDate, posId);
-        return checkArrayList;
+
+        //Создаем новый список чеков с восстановленным списком товаров
+        for (Check check: checkArrayList){
+            check.setSoldGoodsList(CheckDto.convStrToListOfSoldGoods(check.getListOfSoldGoodsStr()));
+            fullChrckArrayList.add(check);
+        }
+
+        return fullChrckArrayList;
     }
 
     @Override
@@ -105,8 +137,8 @@ public class CheckDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CheckDto checkDto1 = (CheckDto) o;
-        return id == checkDto1.id && pos == checkDto1.pos && user == checkDto1.user
-                && goodsDtoList.equals(checkDto1.goodsDtoList) && dateStamp.equals(checkDto1.dateStamp);
+        return checkId == checkDto1.checkId && pos == checkDto1.pos && user == checkDto1.user
+                && soldGoodsList.equals(checkDto1.soldGoodsList) && dateStamp.equals(checkDto1.dateStamp);
     }
 
     @Override
