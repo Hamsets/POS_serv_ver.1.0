@@ -22,7 +22,7 @@ public class PropertiesReader {
             mapProperties.put("db.url", property.getProperty("db.url"));
             mapProperties.put("db.user", property.getProperty("db.user"));
             mapProperties.put("db.password", property.getProperty("db.password"));
-            mapProperties.put("dbText.path", property.getProperty("dbText.path"));
+//            mapProperties.put("dbText.path", property.getProperty("dbText.path"));
             mapProperties.put("portServer", property.getProperty("portServer"));
             mapProperties.put("timeZoneMilliSec", property.getProperty("timeZoneMilliSec"));
             fileInputStream.close();
