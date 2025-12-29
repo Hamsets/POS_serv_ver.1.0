@@ -9,7 +9,7 @@ import lombok.Getter;
 
 public class PropertiesReader {
 
-    public static final String CONFIG_PROPERTIES_PATH = "src/resources/config.properties";
+    public static final String CONFIG_PROPERTIES_PATH = "config.properties";
     @Getter
     private HashMap<String,String> mapProperties = new HashMap<>();
 
