@@ -79,7 +79,8 @@ class PosService {
 							System.out.println("Чек(и) удален(ы).");
 							break;
 						case "READ_GOODS":
-							String goodsFullStr = getGoodsFullStr(Integer.parseInt(arrayReadedStr[1]));
+							String goodsFullStr = getGoodsFullStr(Integer.parseInt(arrayReadedStr[1]),
+									Integer.parseInt(arrayReadedStr[2]));
 							writer.write(goodsFullStr +"\n");
 							System.out.println("Отправляем товары с сервера:" + goodsFullStr);
 							writer.flush();
@@ -193,7 +194,7 @@ class PosService {
 		return s;
 	}
 
-	private String getGoodsFullStr(int id){
+	private String getGoodsFullStr(int id, int posId){
 
 		String goodsFullStr = "";
 		GoodsDao goodsDao = new GoodsDaoImpl();
@@ -204,7 +205,7 @@ class PosService {
 				goodsFullStr = GoodsDto.convertToJson(goods);
 			} else if (id == -1) {
 				List<Goods> list;
-				list = goodsDao.findAllGoods();
+				list = goodsDao.findAllGoods(posId);
 				for (Goods goods : list) {
 					goodsFullStr = goodsFullStr + GoodsDto.convertToJson(goods) + "#";
 				}

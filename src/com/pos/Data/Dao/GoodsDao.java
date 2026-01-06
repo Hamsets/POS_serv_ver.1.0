@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface GoodsDao {
     boolean createGoods(Goods newGoods);
-    List<Goods> findAllGoods();
+    List<Goods> findAllGoods(int posId);
     boolean updateGoods(Goods goods);
     boolean deleteGoodsById (int id);
     Goods findGoodsById (int id);

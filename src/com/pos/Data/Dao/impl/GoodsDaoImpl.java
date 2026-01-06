@@ -60,12 +60,12 @@ public class GoodsDaoImpl implements GoodsDao {
     //TODO отобразить только для текущей POS
     @Override
 //    @Transactional
-    public List<Goods> findAllGoods() {
+    public List<Goods> findAllGoods(int posId) {
         List<Goods> goodsList = new ArrayList<>();
         Session session = null;
         try {
             session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-            goodsList = (List<Goods>) session.createQuery("From Goods").list();
+            goodsList = (List<Goods>) session.createQuery("From Goods Where for_pos = " + posId).list();
 //            goodsList.add(new Goods());
         } catch (Exception e) {
             System.out.println("Ошибка получения всех Goods из БД.");
