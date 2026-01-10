@@ -67,39 +67,83 @@ CREATE TABLE goods (
     prize NUMERIC,
     is_active BOOLEAN NOT NULL,
     deleted BOOLEAN NOT NULL);
+--Партизанская
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i1','1. Пышка', 'i1',            1.00,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i2','1. Пышка карт', 'i2',       1.20,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i3','1. Пышка твор.', 'i3',      1.20,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i4','1. Сет 50/50', 'i4',        5.50,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i5','1. Сет карт.', 'i5',        6.00,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i6','1. Сет классики', 'i6',     5.00,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i7','1. Сет твор.', 'i7',        6.00,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i8','1.1 Соус', 'i8',            1.20,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i9','2. Айс латте', 'i9',        4.50,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i10','2. Америк', 'i10',         3.00,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i11','2. Америк Х2', 'i11',      3.80,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i12','2. Какао', 'i12',          5.00,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i13','2. Капуч', 'i13',          3.50,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i14','2. Капуч Х2', 'i14',       4.00,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i15','2. Латте', 'i15',          4.00,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i16','2. Мокаччино', 'i16',      5.00,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i17','2. Пряный', 'i17',         3.50,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i18','2. Пряный Х2', 'i18',      4.30,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i19','2. Эспресс', 'i19',        3.00,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i20','2. Эспресс Х2', 'i20',     3.80,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i21','3. Бонаква', 'i21',        2.00,  true, false);
 
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i1','1. Пышка', 'i1',            0.80,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i2','1. Пышка карт', 'i2',       1.00,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i3','1. Пышка твор.', 'i3',      1.00,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i4','1. Сет 50/50', 'i4',        4.50,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i5','1. Сет карт.', 'i5',        5.00,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i6','1. Сет классики', 'i6',     4.00,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i7','1. Сет твор.', 'i7',        5.00,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i8','1.1 Соус', 'i8',            1.00,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i9','2. Айс кофе', 'i9',         4.00,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i10','2. Америк', 'i10',         2.30,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i11','2. Америк Х2', 'i11',      3.10,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i12','2. Какао', 'i12',          4.00,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i13','2. Капуч', 'i13',          2.80,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i14','2. Капуч Х2', 'i14',       3.30,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i15','2. Латте', 'i15',          3.30,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i16','2. Мокаччино', 'i16',      4.00,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i17','2. Пряный', 'i17',         3.10,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i18','2. Пряный Х2', 'i18',      3.80,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i19','2. Эспресс', 'i19',        2.30,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i20','2. Эспресс Х2', 'i20',     2.80,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i21','3. Бонаква', 'i21',        1.40,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i22','3. Глинт', 'i22',          4.50,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i23','3. Коктейль', 'i23',       3.50,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i24','3. Лимонад', 'i24',        4.00,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i25','3. Сок', 'i25',            1.50,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i26','3. Чай', 'i26',            4.50,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i27','4. Морож. посыпка', 'i27', 1.00,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i28','4. Морож. Топинг', 'i28',  1.00,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i29','4. Мороженное', 'i29',     3.00,  true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i30','5. Серт. 4 Друг', 'i30',   16.00, true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i31','5. Серт. 8 Друг', 'i31',   32.00, true, false);
-INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i32','6. Канистра', 'i32',       1.00,  true, false);
+--INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i22','3. Глинт', 'i22',          4.50,  true, false);
+
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i23','3. Коктейль', 'i23',       4.50,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i24','3. Лимонад', 'i24',        4.90,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i25','3. Сок', 'i25',            2.00,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i26','3. Чай', 'i26',            5.90,  true, false);
+
+--INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i27','4. Морож. посыпка', 'i27', 1.00,  true, false);
+--INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i28','4. Морож. Топинг', 'i28',  1.00,  true, false);
+--INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i29','4. Мороженное', 'i29',     3.00,  true, false);
+
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i30','5. Серт. 4 Друг', 'i30',   20.00, true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i31','5. Серт. 8 Друг', 'i31',   40.00, true, false);
+
+--INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (1, 'i32','6. Канистра', 'i32',       1.00,  true, false);
+
+--Уручье
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i1','1. Пышка', 'i1',            1.00,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i2','1. Пышка карт', 'i2',       1.20,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i3','1. Пышка твор.', 'i3',      1.20,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i4','1. Сет 50/50', 'i4',        5.50,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i5','1. Сет карт.', 'i5',        6.00,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i6','1. Сет классики', 'i6',     5.00,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i7','1. Сет твор.', 'i7',        6.00,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i8','1.1 Соус', 'i8',            1.20,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i9','2. Айс латте', 'i9',        4.50,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i10','2. Америк', 'i10',         3.00,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i11','2. Америк Х2', 'i11',      3.80,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i12','2. Какао', 'i12',          5.00,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i13','2. Капуч', 'i13',          3.50,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i14','2. Капуч Х2', 'i14',       4.00,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i15','2. Латте', 'i15',          4.00,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i16','2. Мокаччино', 'i16',      5.00,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i17','2. Пряный', 'i17',         3.50,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i18','2. Пряный Х2', 'i18',      4.30,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i19','2. Эспресс', 'i19',        3.00,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i20','2. Эспресс Х2', 'i20',     3.80,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i21','3. Бонаква', 'i21',        2.00,  true, false);
+
+--INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i22','3. Глинт', 'i22',          4.50,  true, false);
+
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i23','3. Коктейль', 'i23',       4.50,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i24','3. Лимонад', 'i24',        4.90,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i25','3. Сок', 'i25',            2.00,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i26','3. Чай', 'i26',            5.90,  true, false);
+
+--INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i27','4. Морож. посыпка', 'i27', 1.00,  true, false);
+--INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i28','4. Морож. Топинг', 'i28',  1.00,  true, false);
+--INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i29','4. Мороженное', 'i29',     3.00,  true, false);
+
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i30','5. Серт. 4 Друг', 'i30',   20.00, true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i31','5. Серт. 8 Друг', 'i31',   40.00, true, false);
+
+--INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i32','6. Канистра', 'i32',       1.00,  true, false);
 
 CREATE TABLE versions (
     id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY UNIQUE NOT NULL,
