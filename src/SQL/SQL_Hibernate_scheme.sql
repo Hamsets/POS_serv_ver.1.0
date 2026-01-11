@@ -30,6 +30,7 @@ CREATE TABLE pos (
 
 INSERT INTO pos (public_name, address, deleted) VALUES ('Метро Партизанская', 'Проспект Партизанский',   false);
 INSERT INTO pos (public_name, address, deleted) VALUES ('Метро Уручье',       'Проспект Независимости',  false);
+INSERT INTO pos (public_name, address, deleted) VALUES ('Тестовая',           'Проспект Тестировщиков',  false);
 
 CREATE TABLE checks (
     check_id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY UNIQUE NOT NULL,
@@ -144,6 +145,15 @@ INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_activ
 INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i31','5. Серт. 8 Друг', 'i31',   40.00, true, false);
 
 --INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (2, 'i32','6. Канистра', 'i32',       1.00,  true, false);
+
+--Тестовая
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (3, 'i1','1. Пышка', 'i1',            1.00,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (3, 'i2','1. Пышка карт', 'i2',       1.20,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (3, 'i3','1. Пышка твор.', 'i3',      1.20,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (3, 'i4','1. Сет 50/50', 'i4',        5.50,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (3, 'i5','1. Сет карт.', 'i5',        6.00,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (3, 'i6','1. Сет классики', 'i6',     5.00,  true, false);
+INSERT INTO goods (for_pos, image_name, public_name, path_image, prize, is_active, deleted) VALUES (3, 'i7','1. Сет твор.', 'i7',        6.00,  true, false);
 
 CREATE TABLE versions (
     id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY UNIQUE NOT NULL,
